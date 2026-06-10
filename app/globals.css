@@ -1,0 +1,256 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------ */
+/* Make `hover:` work for everyone.                             */
+/* Tailwind v4 wraps hover utilities in `@media (hover: hover)` */
+/* by default, which silently disables them on touch + hybrid   */
+/* (laptop-with-touchscreen) devices. Redefining the variant    */
+/* drops that wrapper. Same fix for group-hover.                */
+/* ------------------------------------------------------------ */
+@custom-variant hover (&:hover);
+@custom-variant group-hover (&:is(:where(.group):hover *));
+
+/* ------------------------------------------------------------ */
+/* CSS variables — light/dark base                              */
+/* ------------------------------------------------------------ */
+:root {
+  --background: #ffffff;
+  --foreground: #0b0f17;
+  --muted: #6b7280;
+  --surface: #ffffff;
+  --surface-2: #f6f7f9;
+  --border: #e5e7eb;
+}
+
+/* Dark mode currently disabled (forced light look). Kept here for later. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #0b0f17;
+  }
+}
+
+/* ------------------------------------------------------------ */
+/* Tailwind v4 design tokens                                    */
+/* These produce utilities like bg-eng-amber, text-brand,       */
+/* font-display, etc.                                           */
+/* ------------------------------------------------------------ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Brand palette — industrial / engineering: deep navy primary, */
+  /* amber caution accent, steel and rust supporting tones.       */
+  --color-eng-blue:  #2563EB; /* link / hover */
+  --color-eng-amber: #F59E0B; /* accent — caution/highlight */
+  --color-eng-navy:  #0F3460; /* primary brand */
+  --color-eng-rust:  #B45309; /* warm accent text on amber pills */
+  --color-eng-steel: #475569; /* industrial muted */
+
+  /* Semantic aliases — keep components site-agnostic */
+  --color-brand:        var(--color-eng-navy);
+  --color-brand-accent: var(--color-eng-amber);
+  --color-ink:          #0b0f17;
+  --color-ink-muted:    #4b5563;
+}
+
+/* ------------------------------------------------------------ */
+/* Base typography                                              */
+/* ------------------------------------------------------------ */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Nicer focus ring (keyboard-only) */
+:focus-visible {
+  outline: 2px solid var(--color-eng-navy);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ------------------------------------------------------------ */
+/* Content prose styles (used on detail pages: <section class="docs">) */
+/* ------------------------------------------------------------ */
+@layer components {
+  .docs {
+    /* max-width: 72ch; */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--foreground);
+  }
+  .docs h1 { font-size: 2.25rem; font-weight: 700; margin-top: 2rem;   margin-bottom: 1rem;    letter-spacing: -0.02em; }
+  .docs h2 { font-size: 1.625rem; font-weight: 650; margin-top: 2rem;  margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+  .docs h3 { font-size: 1.25rem;  font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  .docs p, .docs ul, .docs ol { margin-top: 1rem; }
+  .docs ul { list-style-type: disc; padding-left: 1.5rem; }
+  .docs ol { list-style-type: decimal; padding-left: 1.5rem; }
+  .docs li { margin-top: 0.25rem; }
+  .docs a { color: var(--color-eng-navy); text-decoration: underline; text-underline-offset: 3px; }
+  .docs a:hover { color: var(--color-eng-blue); }
+  .docs code {
+    background-color: #f1f3f5;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.92em;
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  }
+  .docs pre {
+    background-color: #0b0f17;
+    color: #f3f4f6;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .docs pre code { background: none; padding: 0; color: inherit; }
+  .docs blockquote {
+    border-left: 3px solid var(--color-eng-amber);
+    padding: 0.25rem 0 0.25rem 1rem;
+    margin-top: 1.25rem;
+    color: #374151;
+    font-style: italic;
+  }
+  .docs hr { margin: 2rem 0; border-color: #e5e7eb; }
+  .docs img { border-radius: 12px; margin-top: 1.25rem; }
+
+  /* Anchored headings clear sticky nav */
+  .docs :is(h1, h2, h3) { scroll-margin-top: 6rem; }
+
+  /* ----------------------------------------------------------
+     Optional "jump to" sidebar — author opts in per detail page
+     Markup:
+       <div class="doc-layout">
+         <aside class="doc-sidebar">
+           <h4>On this page</h4>
+           <ul>
+             <li><a href="#section-1">Section 1</a></li>
+           </ul>
+         </aside>
+         <article class="doc-content">
+           <h2 id="section-1">Section 1</h2>
+           ...
+         </article>
+       </div>
+     ---------------------------------------------------------- */
+
+  .doc-layout { display: block; }
+  .doc-content { min-width: 0; }
+
+  /* ---- Mobile: collapsible card above content ---- */
+  .doc-sidebar {
+    display: block;
+    margin: 0 0 1.5rem 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+  }
+  .doc-sidebar > summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .doc-sidebar > summary::-webkit-details-marker { display: none; }
+  .doc-sidebar > summary::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    margin-bottom: 2px;
+  }
+  .doc-sidebar[open] > summary::after {
+    transform: rotate(-135deg);
+    margin-bottom: -2px;
+  }
+  .doc-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .doc-sidebar a {
+    display: block;
+    font-size: 0.9rem;
+    color: #4b5563;
+    text-decoration: none;
+    padding: 0.15rem 0;
+  }
+  .doc-sidebar a:hover { color: var(--color-eng-navy); }
+
+  /* ---- Large screens: sidebar locked to the right, sticky on scroll ---- */
+  @media (min-width: 1024px) {
+    /* Break out of the .docs 72ch column so the sidebar can sit beside it */
+    .docs:has(.doc-layout) { max-width: none; }
+
+    .doc-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 72ch) 45rem;
+      column-gap: 3rem;
+      align-items: start;
+    }
+    .doc-content { min-width: 0; max-width: 72ch; }
+
+    .doc-sidebar {
+      position: sticky;
+      top: 6rem;
+      margin: 0;
+      padding: 0 0 0 1rem;
+      border: 0;
+      border-left: 1px solid #e5e7eb;
+      border-radius: 0;
+      background: transparent;
+    }
+    /* On desktop the sidebar is always visible — disable toggle + hide chevron */
+    .doc-sidebar > summary { cursor: default; pointer-events: none; }
+    .doc-sidebar > summary::after { content: none; }
+    .doc-sidebar ul { gap: 0.3rem; }
+  }
+}
+
+html { scroll-behavior: smooth; }
+
+/* ------------------------------------------------------------ */
+/* Decorative background utilities                              */
+/* ------------------------------------------------------------ */
+@layer utilities {
+  .bg-hero-grid {
+    background-image:
+      radial-gradient(circle at 20% 0%,  color-mix(in oklab, var(--color-eng-amber) 22%, transparent) 0%, transparent 45%),
+      radial-gradient(circle at 90% 10%, color-mix(in oklab, var(--color-eng-blue) 18%, transparent) 0%, transparent 50%),
+      linear-gradient(to bottom, #ffffff 60%, #f6f7f9 100%);
+  }
+  .ring-soft {
+    box-shadow:
+      0 1px 0 rgba(15, 23, 42, 0.04),
+      0 8px 24px -8px rgba(15, 23, 42, 0.10);
+  }
+}
+
+/* ------------------------------------------------------------ */
+/* Hide scrollbars on horizontal chip rows (mobile)             */
+/* ------------------------------------------------------------ */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
