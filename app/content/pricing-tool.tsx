@@ -173,6 +173,13 @@ function sellCopyText(rows: TierRow[]): string {
   return rows.map((r) => r.rangeLabel + " = " + currency(r.unitSell, 2)).join("\n");
 }
 
+/** Per-card copy block aligned to the aggregated tier ranges in the sell table. */
+function cardCopyAtTiers(card: CostCard, rows: TierRow[]): string {
+  return rows
+    .map((r) => r.rangeLabel + " = " + currency(cardUnitCostAt(card, r.minQty), 2))
+    .join("\n");
+}
+
 // ============================================================
 // Defaults
 // ============================================================
@@ -465,34 +472,79 @@ export default function PricingToolPage() {
           4. SELL OUTPUT
           ======================================================== */}
       <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-600">
-            4. Sell
-          </h2>
-          <button
-            type="button"
-            onClick={() => copy(sellCopyText(sellRows))}
-            disabled={sellRows.length === 0}
-            className="rounded-full bg-eng-navy px-3 py-1 text-xs font-semibold text-white hover:bg-eng-blue disabled:cursor-not-allowed disabled:bg-gray-300"
-          >
-            Copy sell
-          </button>
-        </div>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-600">
+          4. Sell
+        </h2>
 
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[32rem] text-sm">
             <thead className="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
               <tr>
-                <th className="px-2 py-2">Qty</th>
-                <th className="px-2 py-2 text-right">Unit cost</th>
-                <th className="px-2 py-2 text-right">Unit sell</th>
-                <th className="px-2 py-2 text-right">Margin</th>
+                <th className="px-2 py-2 align-bottom">Qty</th>
+                {cards.map((card) => (
+                  <th key={card.id} className="px-2 py-2 text-right align-bottom">
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="max-w-[8rem] truncate text-gray-700" title={card.name}>
+                        {card.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copy(cardCopyAtTiers(card, sellRows))}
+                        disabled={sellRows.length === 0}
+                        className="rounded-full bg-eng-navy/10 px-2 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-eng-navy hover:bg-eng-navy hover:text-white disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
+                        title={"Copy " + card.name + " price breaks"}
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </th>
+                ))}
+                <th className="px-2 py-2 text-right align-bottom">
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-gray-700">Total cost</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        copy(
+                          sellRows
+                            .map((r) => r.rangeLabel + " = " + currency(r.unitCost, 2))
+                            .join("\n"),
+                        )
+                      }
+                      disabled={sellRows.length === 0}
+                      className="rounded-full bg-eng-navy/10 px-2 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-eng-navy hover:bg-eng-navy hover:text-white disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
+                      title="Copy total cost price breaks"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-right align-bottom">
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-gray-700">Unit sell</span>
+                    <button
+                      type="button"
+                      onClick={() => copy(sellCopyText(sellRows))}
+                      disabled={sellRows.length === 0}
+                      className="rounded-full bg-eng-navy/10 px-2 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-eng-navy hover:bg-eng-navy hover:text-white disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
+                      title="Copy sell price breaks"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-right align-bottom">Margin</th>
               </tr>
             </thead>
             <tbody>
               {sellRows.map((r) => (
                 <tr key={r.minQty} className="border-t border-gray-100">
                   <td className="px-2 py-1.5 font-mono text-xs">{r.rangeLabel}</td>
+                  {cards.map((card) => (
+                    <td key={card.id} className="px-2 py-1.5 text-right font-mono text-gray-700">
+                      {currency(cardUnitCostAt(card, r.minQty), 4)}
+                    </td>
+                  ))}
                   <td className="px-2 py-1.5 text-right font-mono">{currency(r.unitCost, 4)}</td>
                   <td className="px-2 py-1.5 text-right font-mono font-semibold text-eng-navy">
                     {currency(r.unitSell)}
