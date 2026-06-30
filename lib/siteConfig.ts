@@ -67,22 +67,22 @@ export const siteConfig = {
   // ---------- Homepage content ----------
   featuredItems: [
     {
-      title: "ISO Metric Thread Sizes",
-      category: "Fasteners",
+      title: "Pricing Tool",
+      category: "engineering-category",
       image: "/featured-fasteners.jpg",
-      href: "/iso-metric-threads",
+      href: "/pricing-tool",
     },
     {
-      title: "Material Properties: Steel & Aluminum",
-      category: "Materials",
+      title: "Belt & Pulley",
+      category: "engineering-category",
       image: "/featured-materials.jpg",
-      href: "/material-properties",
+      href: "/belt-pulley-tool",
     },
     {
-      title: "GD&T Symbol Quick Reference",
-      category: "Drafting",
+      title: "QR Code Generator",
+      category: "engineering-category",
       image: "/featured-gdt.jpg",
-      href: "/gdt-symbols",
+      href: "/qr-tool",
     },
   ] satisfies FeaturedItem[],
 
@@ -90,19 +90,19 @@ export const siteConfig = {
     {
       title: "Mechanical",
       description: "Fasteners, bearings, gears, shafts, springs, and machine design.",
-      href: "/mechanical",
+      href: "/mechanical-engineering-category",
       badge: "Mech",
     },
     {
       title: "Materials",
       description: "Metals, polymers, composites — properties, treatments, and selection.",
-      href: "/materials",
+      href: "/materials-engineering-category",
       badge: "Mat",
     },
     {
       title: "Standards & Codes",
       description: "ASME, ISO, ASTM, ANSI — the specs you reference on every drawing.",
-      href: "/standards",
+      href: "/industrial-standards-category",
       badge: "Std",
     },
   ] satisfies FeaturedCategory[],

@@ -11680,5 +11680,65 @@
     "relationships": {
       "related": []
     }
+  },
+  {
+    "id": "image-tool",
+    "type": "tool",
+    "slug": "image-tool",
+    "name": "Image Tool",
+    "description": "Drop or upload any image, view its dimensions and type, resize with aspect lock, convert between PNG, JPEG, WebP, and multi-resolution ICO (favicon), generate a base64 data URI, plus an SVG source viewer with minify. All processing runs locally.",
+    "parentIds": [
+      "engineering-category"
+    ],
+    "status": "published",
+    "visibility": "public",
+    "metadata": {
+      "location": "",
+      "type": ""
+    },
+    "tags": [
+      "tool"
+    ],
+    "seo": {
+      "title": "",
+      "description": "",
+      "keywords": []
+    },
+    "media": {
+      "featuredImage": ""
+    },
+    "relationships": {
+      "related": []
+    }
+  },
+  {
+    "id": "business-card-tool",
+    "type": "tool",
+    "slug": "business-card-tool",
+    "name": "Business Card Scanner",
+    "description": "Snap a photo of a business card with the camera (or upload one), fill in the contact fields, and build a running list. Each card downloads as a vCard or opens a LinkedIn search; the full list exports as CSV via copy or download",
+    "parentIds": [
+      "engineering-category"
+    ],
+    "status": "published",
+    "visibility": "public",
+    "metadata": {
+      "location": "",
+      "type": ""
+    },
+    "tags": [
+      "tool"
+    ],
+    "seo": {
+      "title": "",
+      "description": "",
+      "keywords": []
+    },
+    "media": {
+      "featuredImage": ""
+    },
+    "relationships": {
+      "related": []
+    }
   }
 ]

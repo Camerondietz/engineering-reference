@@ -38,29 +38,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------- FEATURED ITEMS ---------- */}
-      <section id="featured" className="px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Editor's picks"
-            title="Featured references"
-            subtitle="A small, hand-picked set of the lookups engineers reach for most often."
-          />
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {siteConfig.featuredItems.map((item) => (
-              <FeaturedCard
-                key={item.href}
-                title={item.title}
-                category={item.category}
-                image={item.image}
-                href={item.href}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ---------- CATEGORIES ---------- */}
       <section id="categories" className="bg-gray-50 px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
@@ -92,6 +69,31 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ---------- FEATURED ITEMS ---------- */}
+      <section id="featured" className="px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="Editor's picks"
+            title="Featured references"
+            subtitle="A small, hand-picked set of the lookups engineers reach for most often."
+          />
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {siteConfig.featuredItems.map((item) => (
+              <FeaturedCard
+                key={item.href}
+                title={item.title}
+                category={item.category}
+                image={item.image}
+                href={item.href}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+
     </div>
   );
 }
