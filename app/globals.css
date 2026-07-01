@@ -222,6 +222,7 @@ body {
       border-left: 1px solid #e5e7eb;
       border-radius: 0;
       background: transparent;
+      max-width: 300px;
     }
     /* On desktop the sidebar is always visible — disable toggle + hide chevron */
     .doc-sidebar > summary { cursor: default; pointer-events: none; }

@@ -158,7 +158,6 @@ export default async function NodePage({ params }: Props) {
       {ContentComponent ? (
         <section className="docs">
           <ContentComponent node={node} />
-
           {node.tags && node.tags.length > 0 && (
             <div className="not-prose mt-10 flex flex-wrap gap-1.5">
               {node.tags.map((t) => (
