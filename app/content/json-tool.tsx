@@ -402,7 +402,7 @@ export default function JsonToolPage() {
             {typeof queryResults === "string" ? (
               <p className="rounded-lg bg-eng-rust/10 px-3 py-2 text-sm text-eng-rust">{queryResults}</p>
             ) : Array.isArray(queryResults) ? (
-              <pre className="max-h-72 overflow-auto rounded-lg bg-gray-900 p-3 font-mono text-xs text-gray-100">
+              <pre className="max-h-72 max-w-full overflow-auto rounded-lg bg-gray-900 p-3 font-mono text-xs text-gray-100">
                 {JSON.stringify(queryResults, null, 2)}
               </pre>
             ) : (
@@ -440,17 +440,17 @@ export default function JsonToolPage() {
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
       <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-      <div className="mt-3">{children}</div>
+      <div className="mt-3 min-w-0">{children}</div>
     </section>
   );
 }
 
 function OutputBox({ text, onCopy }: { text: string; onCopy: () => void }) {
   return (
-    <div className="relative">
-      <pre className="max-h-72 overflow-auto rounded-lg bg-gray-900 p-3 font-mono text-xs leading-relaxed text-gray-100">
+    <div className="relative min-w-0">
+      <pre className="max-h-72 max-w-full overflow-auto rounded-lg bg-gray-900 p-3 font-mono text-xs leading-relaxed text-gray-100">
         {text || " "}
       </pre>
       <button
